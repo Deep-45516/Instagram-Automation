@@ -28,6 +28,7 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   console.log("========== WEBHOOK ==========");
+  console.log("REAL WEBHOOK:");
   console.log(JSON.stringify(req.body, null, 2));
   console.log("=============================");
 
