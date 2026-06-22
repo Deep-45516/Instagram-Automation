@@ -38,7 +38,8 @@ app.post("/webhook", (req, res) => {
 
       if (entry.messaging) {
         entry.messaging.forEach(event => {
-
+          console.log("EVENT TYPE:");
+          console.log(Object.keys(event));
           if (event.message) {
             console.log("MESSAGE RECEIVED");
             console.log("TEXT:", event.message.text);
