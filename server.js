@@ -28,8 +28,32 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res) => {
   console.log("========== WEBHOOK ==========");
-  console.log("REAL WEBHOOK:");
-  console.log(JSON.stringify(req.body, null, 2));
+
+  const body = req.body;
+
+  console.log(JSON.stringify(body, null, 2));
+
+  if (body.entry) {
+    body.entry.forEach(entry => {
+
+      if (entry.messaging) {
+        entry.messaging.forEach(event => {
+
+          if (event.message) {
+            console.log("MESSAGE RECEIVED");
+            console.log("TEXT:", event.message.text);
+            console.log("SENDER:", event.sender?.id);
+          }
+
+          if (event.read) {
+            console.log("READ EVENT");
+          }
+        });
+      }
+
+    });
+  }
+
   console.log("=============================");
 
   res.sendStatus(200);
