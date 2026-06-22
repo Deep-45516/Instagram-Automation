@@ -27,31 +27,9 @@ app.get("/webhook", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2));
-
-  const entry = req.body.entry?.[0];
-
-  if (entry?.messaging) {
-    entry.messaging.forEach(event => {
-      console.log("EVENT KEYS:", Object.keys(event));
-
-      if (event.message) {
-        console.log("MESSAGE:", event.message.text);
-      }
-
-      if (event.message_edit) {
-        console.log("MESSAGE_EDIT:", event.message_edit);
-      }
-
-      if (event.reaction) {
-        console.log("REACTION:", event.reaction);
-      }
-
-      if (event.read) {
-        console.log("READ:", event.read);
-      }
-    });
-  }
+  console.log(
+    JSON.stringify(req.body, null, 2)
+  );
 
   res.sendStatus(200);
 });
