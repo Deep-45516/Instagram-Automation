@@ -27,39 +27,34 @@ app.get("/webhook", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  console.log("========== WEBHOOK ==========");
+  console.log(JSON.stringify(req.body, null, 2));
 
-  const body = req.body;
+  const entry = req.body.entry?.[0];
 
-  console.log(JSON.stringify(body, null, 2));
+  if (entry?.messaging) {
+    entry.messaging.forEach(event => {
+      console.log("EVENT KEYS:", Object.keys(event));
 
-  if (body.entry) {
-    body.entry.forEach(entry => {
-
-      if (entry.messaging) {
-        entry.messaging.forEach(event => {
-          console.log("EVENT TYPE:");
-          console.log(Object.keys(event));
-          if (event.message) {
-            console.log("MESSAGE RECEIVED");
-            console.log("TEXT:", event.message.text);
-            console.log("SENDER:", event.sender?.id);
-          }
-
-          if (event.read) {
-            console.log("READ EVENT");
-          }
-        });
+      if (event.message) {
+        console.log("MESSAGE:", event.message.text);
       }
 
+      if (event.message_edit) {
+        console.log("MESSAGE_EDIT:", event.message_edit);
+      }
+
+      if (event.reaction) {
+        console.log("REACTION:", event.reaction);
+      }
+
+      if (event.read) {
+        console.log("READ:", event.read);
+      }
     });
   }
 
-  console.log("=============================");
-
   res.sendStatus(200);
 });
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
