@@ -27,9 +27,20 @@ app.get("/webhook", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  console.log(
-    JSON.stringify(req.body, null, 2)
-  );
+  console.log(JSON.stringify(req.body, null, 2));
+
+  const entry = req.body.entry?.[0];
+  const messaging = entry?.messaging?.[0];
+
+  if (messaging?.message) {
+    console.log("MESSAGE RECEIVED");
+    console.log(messaging.message.text);
+
+    if (messaging.sender) {
+      console.log("SENDER:");
+      console.log(messaging.sender.id);
+    }
+  }
 
   res.sendStatus(200);
 });
